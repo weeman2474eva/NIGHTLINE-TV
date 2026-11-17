@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-const ROLES = ['admin', 'superadmin', 'viewer'];
-$role = $_GET['role'] ?? 'viewer';
-if (!is_string($role) || !in_array($role, ROLES, true)) {
-    http_response_code(404);
+$role = defined('NIGHTLINE_ROLE') ? NIGHTLINE_ROLE : 'viewer';
+$legacyRole = $_GET['role'] ?? null;
+if ($role === 'viewer' && in_array($legacyRole, ['admin', 'superadmin'], true)) {
+    header('Location: ' . $legacyRole . '.php', true, 303);
     exit;
 }
 
@@ -109,7 +109,7 @@ function saveAccount(string $role, bool $createOnly = false): void {
 }
 
 $title = ['viewer' => 'NIGHTLINE TV', 'admin' => 'Nightline Admin', 'superadmin' => 'Nightline Superadmin'][$role];
-$url = 'index.php?role=' . $role;
+$url = ['viewer' => 'index.php', 'admin' => 'admin.php', 'superadmin' => 'superadmin.php'][$role];
 $cookie = 'nightline_' . $role;
 $token = $_COOKIE[$cookie] ?? '';
 $token = is_string($token) ? $token : '';
