@@ -1,0 +1,20 @@
+plugins {
+    id 'com.android.application' version '8.7.3'
+}
+android {
+    namespace 'tv.nightline'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'tv.nightline'
+        minSdk 23
+        targetSdk 32
+        versionCode 1
+        versionName '0.1'
+        def url = providers.gradleProperty('nightlineUrl').orElse('').get()
+        if (url && !(url ==~ /https:\/\/[A-Za-z0-9.:-]+\/?/)) {
+            throw new GradleException('nightlineUrl must be an HTTPS base URL')
+        }
+        buildConfigField 'String', 'PANEL_URL', '"' + url.replaceAll('/+$', '') + '"'
+    }
+    buildFeatures { buildConfig true }
+}
