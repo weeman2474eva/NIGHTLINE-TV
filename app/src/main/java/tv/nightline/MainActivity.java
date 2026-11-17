@@ -37,7 +37,7 @@ public final class MainActivity extends Activity {
         });
         setContentView(screen);
         screen.requestFocus();
-        screen.loadUrl(BuildConfig.PANEL_URL + "/tv");
+        screen.loadUrl(BuildConfig.PANEL_URL + "/index.php");
     }
 
     @Override
@@ -47,6 +47,12 @@ public final class MainActivity extends Activity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (screen != null) screen.onResume();
     }
 
     @Override
