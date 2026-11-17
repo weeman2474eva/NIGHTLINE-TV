@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       panel_url:
-        description: HTTPS base URL for Nightline Admin
+        description: HTTPS folder URL for Nightline Admin (omit index.php)
         required: true
 permissions:
   contents: read
